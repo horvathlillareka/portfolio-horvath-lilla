@@ -1,18 +1,17 @@
-// Profilkép hozzáadása randomuser.me API segítségével
-document.addEventListener('DOMContentLoaded', () => {
-    const aboutSection = document.querySelector('#about');
-    const img = document.createElement('img');
-    img.alt = 'Profilkép';
-    img.style.width = '150px';
-    img.style.borderRadius = '50%';
-    img.style.display = 'block';
-    img.style.margin = '0 auto 20px';
-
-    fetch('https://randomuser.me/api/')
+document.addEventListener("DOMContentLoaded", () => {
+    fetch("https://randomuser.me/api/")
         .then(response => response.json())
         .then(data => {
-            img.src = data.results[0].picture.large;
-            aboutSection.prepend(img);
+            const user = data.results[0];
+            
+            // Elemszerkesztés a kép nélkül
+            const userInfo = document.getElementById("user-info");
+            userInfo.innerHTML = `
+                <h2>${user.name.first} ${user.name.last}</h2>
+                <p>Email: ${user.email}</p>
+                <p>Telefon: ${user.phone}</p>
+                <p>Ország: ${user.location.country}</p>
+            `;
         })
-        .catch(error => console.error('Hiba történt az API betöltésekor:', error));
+        .catch(error => console.error("Hiba történt az API lekérésekor:", error));
 });
